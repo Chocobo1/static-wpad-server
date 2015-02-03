@@ -1,13 +1,13 @@
 # Makefile
 
 # compiler options
-CXX			= g++ # -pg
-CXXFLAGS	= -pipe -Wall -O2 -mtune=native -fstack-protector-strong --param=ssp-buffer-size=4 # -Wfatal-errors # -g -ggdb
-LDFLAGS		= -s -lmicrohttpd -lpthread -Wl,-O1,--sort-common,--as-needed,-z,relro
-SRC_NAME	= main
-LIBS		= /home/asdf/Desktop/libmicrohttpd-0.9.35/install
-EXECUTABLE	= my_httpd
-SRC_EXT		= cpp
+CXX			+= # -pg
+CXXFLAGS	 = -pipe -Wall -O2 -mtune=native -fstack-protector-strong --param=ssp-buffer-size=4 # -Wfatal-errors # -g -ggdb
+LDFLAGS		 = -s -lmicrohttpd -lpthread -Wl,-O1,--sort-common,--as-needed,-z,relro
+SRC_NAME	 = main
+LIBS		 = /home/asdf/Desktop/libmicrohttpd-0.9.35/install
+EXECUTABLE	 = my_httpd
+SRC_EXT		 = cpp
 
 
 # targets

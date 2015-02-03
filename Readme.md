@@ -1,4 +1,4 @@
-﻿## Simple http server
+﻿## Static wpad server
 A small, simple (naïve) http server whose only purpose is serving a static wpad.dat file
 
 ## Library Dependencies
