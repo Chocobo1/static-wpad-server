@@ -14,8 +14,9 @@ matrix:
 
 env:
   global:
-    - LIBMICROHTTPD="libmicrohttpd-0.9.39"
-    - secure: "iUjBKX3y+YNI0QYVvYGmumb4P6iAh8NKcEgt/bU9849jCeG/TmWZ1bB0opmqEH1/sFborFo25IDsTbZaHK8P6EOr9bwUip7aG2zoyGSxXaSFCWNqydeVggikof4v
+    - 'LIBMICROHTTPD="libmicrohttpd-0.9.39"'
+    - secure: "CytcbXTa2/VSLJVCsiP5UewyEiUGvSZc6wkeiD2OKChjo5G8z/fXU3/PJ2dVdwVhik0/9rcXgtF6X9oGsjYM3v5L0wuMkgxRrarkIbX95vRm6ncksngCbGDTo5pwx5vEZ1tDUkX4am5VSxHj6wHgj8Sl9UWvwBuxk8ZOMd3p3Yg="
+    - secure: "o9NcSoWAnG2t9egbVANXIC7eVIqV/fLlTrmzEFkIKzc3ddYoA3qmyC/ceGqLogtA/NwRsM4QQ1cdUh9GUpfep9US1ejGb2w4eGNXHQPT4g1TiPP/fmuwaYQvS5HFGW3aGO6JSRTKShZaZ2p5PiUHd0YyKmOvXQMUrak2WZk8+XA="
 
 
 # setup libmicrohttpd
@@ -25,18 +26,21 @@ install:
   - 'tar -xf "$LIBMICROHTTPD.tar.gz" && cd "$LIBMICROHTTPD"'
   - './configure --disable-https --disable-spdy --disable-bauth --disable-dauth --disable-postprocessor --disable-doc --disable-examples --disable-curl --enable-static --disable-shared --prefix=$(pwd)/install'
   - 'make install -j3'
-
-
-# main compile script
-script:
-  - 'cd $TRAVIS_BUILD_DIR && make clean'
-  - 'make -j3 CXXFLAGS="-pipe -Wall -O2 -mtune=native" LIBS="$HOME/$LIBMICROHTTPD/install"'
+  # switch back to working directory for coverity
+  - 'cd $TRAVIS_BUILD_DIR'
 
 
 addons:
   coverity_scan:
     project:
-      name: "Chocobo1/static-wpad-server"
-      description: "Build submitted via Travis CI"
-    build_command:  "make -j3 CXXFLAGS="" LIBS="$HOME/$LIBMICROHTTPD/install"
-    branch_pattern: scan
+      name: 'Chocobo1/static-wpad-server'
+      description: 'Build submitted via Travis CI'
+    build_command:  'make -j3 CXXFLAGS="-pipe" LIBS="$HOME/$LIBMICROHTTPD/install"'
+    branch_pattern: 'scan'
+    notification_email: $AMAIL
+
+
+# main compile script
+script:
+  - 'if [ ${COVERITY_SCAN_BRANCH} = 1 ]; then exit ; fi'  # skip normal build when coverity active
+  - 'make clean && make -j3 CXXFLAGS="-pipe -Wall -O2 -mtune=native" LIBS="$HOME/$LIBMICROHTTPD/install"'

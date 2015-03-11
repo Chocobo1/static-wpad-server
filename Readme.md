@@ -2,6 +2,7 @@
 A small, simple (naïve) http server whose only purpose is serving a static wpad.dat file
 
 [![Travis CI status](https://travis-ci.org/Chocobo1/static-wpad-server.svg?branch=master)](https://travis-ci.org/Chocobo1/static-wpad-server)
+[![Coverity Scan status](https://scan.coverity.com/projects/4495/badge.svg)](https://scan.coverity.com/projects/4495)
 
 
 ## Library Dependencies
