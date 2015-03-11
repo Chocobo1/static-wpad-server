@@ -1,9 +1,9 @@
 # Makefile
 
 # compiler options
-CXX			+= # -pg
+CXX			+= # -fdiagnostics-color=always # -pg
 CXXFLAGS	 = -pipe -Wall -O2 -mtune=native -fstack-protector-strong --param=ssp-buffer-size=4 # -Wfatal-errors # -g -ggdb
-LDFLAGS		 = -s -lmicrohttpd -lpthread -Wl,-O1,--sort-common,--as-needed,-z,relro
+LDFLAGS		 = -s -lmicrohttpd -lrt -lpthread -Wl,-O1,--sort-common,--as-needed,-z,relro
 SRC_NAME	 = main
 LIBS		 = /home/asdf/Desktop/libmicrohttpd-0.9.35/install
 EXECUTABLE	 = my_httpd

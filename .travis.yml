@@ -1,0 +1,42 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+
+
+git:
+  depth: 10
+
+
+matrix:
+  fast_finish: true
+
+
+env:
+  global:
+    - LIBMICROHTTPD="libmicrohttpd-0.9.39"
+    - secure: "iUjBKX3y+YNI0QYVvYGmumb4P6iAh8NKcEgt/bU9849jCeG/TmWZ1bB0opmqEH1/sFborFo25IDsTbZaHK8P6EOr9bwUip7aG2zoyGSxXaSFCWNqydeVggikof4v
+
+
+# setup libmicrohttpd
+install:
+  - 'cd "$HOME"'
+  - 'wget "http://ftpmirror.gnu.org/libmicrohttpd/$LIBMICROHTTPD.tar.gz"'
+  - 'tar -xf "$LIBMICROHTTPD.tar.gz" && cd "$LIBMICROHTTPD"'
+  - './configure --disable-https --disable-spdy --disable-bauth --disable-dauth --disable-postprocessor --disable-doc --disable-examples --disable-curl --enable-static --disable-shared --prefix=$(pwd)/install'
+  - 'make install -j3'
+
+
+# main compile script
+script:
+  - 'cd $TRAVIS_BUILD_DIR && make clean'
+  - 'make -j3 CXXFLAGS="-pipe -Wall -O2 -mtune=native" LIBS="$HOME/$LIBMICROHTTPD/install"'
+
+
+addons:
+  coverity_scan:
+    project:
+      name: "Chocobo1/static-wpad-server"
+      description: "Build submitted via Travis CI"
+    build_command:  "make -j3 CXXFLAGS="" LIBS="$HOME/$LIBMICROHTTPD/install"
+    branch_pattern: scan
